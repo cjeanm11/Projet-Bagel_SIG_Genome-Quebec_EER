@@ -1,1 +1,26 @@
-theme: jekyll-theme-cayman
+remote_theme: pages-themes/cayman@v0.2.0
+gem "github-pages", group: :jekyll_plugins
+plugins:
+  - jekyll-remote-theme # add this line to the plugins list if you already have one
+url: https://cjeanm11.github.io/projet-IFT3150
+github:
+  repository_url: https://github.com/cjeanm11/projet-IFT3150
+  zip_url: https://github.com/cjeanm11/projet-IFT3150/archive/refs/heads/main.zip
+  tar_url: https://github.com/cjeanm11/projet-IFT3150/archive/refs/heads/main.tar.gz
+title: IFT3150 - CS project
+description: A short description of your site's purpose
+show_downloads: true
+
+
+tagline: A responsive theme for your project on GitHub Pages
+locale: en
+
+author:
+  url: https://diro.umontreal.ca/accueil/
+
+fr:
+  author:
+    name: Université de Montréal
+en:
+  author:
+    name: University of Montreal
