@@ -2,6 +2,38 @@
 lang: fr
 ---
 
-# Voici une entete
+### Mandat :
 
-ikiikiokio okoikoi
+- Élaborer les requis techniques
+- Documenter les exigences
+- Developper un prototype
+- Design d'interface utilisateur
+- Implémentation
+- Tester
+
+### Rapport :
+
+#### 14 - 27 mai 2022 :
+
+Au cours des précédentes semaines, de nombreuses discussions ont été abordées concernant le point de vue technique de l'application, ce qu'elle doit faire et ce qui doit être implémenté.
+Nous avons eu des rencontres avec l'ÉER et l'organisation Genome Québec pour discuter de leur besoins. 
+
+Suite au discussions, nous avons élaborer des récits de base pour le projet.
+
+Voici quelques exemples:
+ - En tant qu'administrateur, je veux voir et modifier toutes les étiquettes afin de corriger des erreurs dans les données des étiquettes.
+ - En tant qu'{élève, enseignant, administrateur}, je veux voir et comparer toutes les étiquettes afin de d’explorer le travail des autres.
+ - En tant qu'{élève, enseignant, administrateur}, je veux visualiser des statistiques de l’ensemble des étiquettes afin de voir un portrait global des étiquettes et du projet.
+
+#### 30 mai - 10 juin 2022 :
+
+Durant cette periode, j'ai fait plusieurs tâches techniques pour preparer le commencement developpement:
+J'ai fait:
+- J'ai la creation de ce site pour documenté et décrire le projet.
+- Conception et préparation de la coquille/structure de base du projet qui préservera un maintenabilité à travers le temps. La structure est inspirer du modele MVC (model-view-controler).
+- Décrire les prérequis techniques pour partir l'application et contribuer au projet.
+- Creation d'un [document de conception](/projet-IFT3150/extra/endPoints.html) de base pour elaborer les différents end-point qui refléterait les differents récits.
+- Creation d'une [maquette](https://www.figma.com/file/PKpWv1xNZZSQ9bKw9wtKBu/Geo-app) pour de suggestions design UI.
+
+#### 13 - 27 juin 2022 :
+
