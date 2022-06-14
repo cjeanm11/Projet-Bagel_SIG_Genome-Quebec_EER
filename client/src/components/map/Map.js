@@ -19,7 +19,7 @@ export class Map extends React.Component {
     }
 
     componentDidMount() {
-           fetch("/map").then(
+           fetch("/map/markers").then(
                res => res.json()
            ).then((data) =>
                this.setState({ markers: data })
