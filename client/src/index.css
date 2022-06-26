@@ -1,5 +1,8 @@
-body {
-    margin: 0;
+body, html {
+    margin: auto;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
 }
 
 h1, h2, p {
