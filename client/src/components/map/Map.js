@@ -1,8 +1,8 @@
 import React from 'react'
-import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet'
+import {MapContainer, TileLayer} from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import './Map.css'
-import {DefaultIcon} from "./utils/constants";
+import {MarkerContainer} from "../marker/MarkerContainer";
 
 export class Map extends React.Component {
 
@@ -26,33 +26,16 @@ export class Map extends React.Component {
            )
     }
 
-    renderMarkers = (markers) => {
-        return markers.map((marker) =>
-            (
-                <Marker position={marker} icon={DefaultIcon}>
-                    <Popup>
-                        <table>
-                            <tr>
-                                <td>
-                                    // insert image...
-                                </td>
-                                <td>
-                                    texte descriptif
-                                </td>
-                            </tr>
-                        </table>
-                    </Popup>
-                </Marker>
-            )
-        );
-    }
-
     render() {
     return <MapContainer center={[this.state.pos.lat,this.state.pos.lng]} zoom={this.state.pos.zoom}>
             <TileLayer
-                url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
+                url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
             />
-            {this.renderMarkers(this.state.markers)}
+            {this.state.markers.map((marker, i) =>
+                (
+                    <MarkerContainer key={i} marker={marker} i={i}  > </MarkerContainer>
+                )
+            )}
         </MapContainer>
     }
 }
