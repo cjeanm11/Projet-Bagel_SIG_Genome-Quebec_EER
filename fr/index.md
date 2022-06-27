@@ -18,5 +18,4 @@ Le projet est sous la direction de [Michalis Famelis](https://michalis.famelis.i
 #### Été 2022
 
 - [Jean-Michel Cid](/projet-IFT3150/fr/rapports/rapport-cjeanm.html)
-
 - [Mehdi Aqdim](/projet-IFT3150/fr/rapports/rapport-amehdi.html)

@@ -34,3 +34,14 @@ Here's an enumeration :
 - Describe the preliminary techniques to start the application and contribute to the project.
 - Creation of a basic [design document](/projet-IFT3150/extra/endPoints.html) to elaborate the different endpoints that reflects different user stories.
 - Designed a UI [prototype](https://www.figma.com/file/PKpWv1xNZZSQ9bKw9wtKBu/Geo-app) to provide suggestions.
+
+#### June 13 - 27, 2022:
+
+During this time I did:
+- Addition of different end-points described in the back-end design document I previously made.
+- Progress on understanding the requirements by drawing a starting data model with the team.
+- Added the routing functionality in the front-end which will allow us to transition from one page to another.
+- Addition of basic functionalities and different components: Header, Footer, home page, etc.
+- Preparation of the technical basis for the use of the redux tool - a tool that will allow us to manage the state across several components.
+
+#### June 27 - July 11, 2022:
