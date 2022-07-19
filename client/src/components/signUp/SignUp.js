@@ -78,17 +78,17 @@ export default function SignUp() {
                             <Button
                                 loadingText="Submitting"
                                 size="lg"
-                                bg={'blue.400'}
+                                bg={'green.400'}
                                 color={'white'}
                                 _hover={{
-                                    bg: 'blue.500',
+                                    bg: 'green.300',
                                 }}>
                                 Sign up
                             </Button>
                         </Stack>
                         <Stack pt={6}>
                             <Text align={'center'}>
-                                Already a user? <Link color={'blue.400'}>Login</Link>
+                                Already a user? <Link color={'green.400'}>Login</Link>
                             </Text>
                         </Stack>
                     </Stack>

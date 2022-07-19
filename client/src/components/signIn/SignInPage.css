@@ -1,4 +1,10 @@
 .wrapper{
     width: 100vw;
     height: 100vh;
+    background-size: 100vw, 100vh;
 }
+
+img {
+    filter: brightness(0.8);
+}
+

@@ -12,9 +12,24 @@ import {
     Text,
     useColorModeValue,
 } from '@chakra-ui/react';
+import {toggleLogin} from "../../redux/userSlice";
+import {store} from "../../redux/store";
+import { useNavigate } from 'react-router';
+import {useSelector} from "react-redux"; // import useNavigate()
+export function SignIn(props) {
+    const navigate = useNavigate(); // make const
+    const user = useSelector(state => state.user)
+    let loggedIn= false;
 
-export function SignIn() {
-    return (
+    function validateUser(){
+       // todo validate user : fetch data, password, etc
+       if(!user.loggedIn ){
+           store.dispatch(toggleLogin())
+           navigate('/app');
+           loggedIn = true;
+       }
+   }
+   return (
         <Flex
             minH={'100vh'}
             align={'center'}
@@ -22,9 +37,9 @@ export function SignIn() {
             bg={useColorModeValue('gray.50', 'gray.800')}>
             <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
                 <Stack align={'center'}>
-                    <Heading fontSize={'4xl'}>Sign in to your account</Heading>
-                    <Text fontSize={'lg'} color={'gray.600'}>
-                        to enjoy all of our cool <Link color={'blue.400'}>features</Link> ✌️
+                    <Heading fontSize={'4xl'}>Nom de l'application</Heading>
+                    <Text color={'green.400'} fontSize={'lg'} >
+                         Connectez-vous à votre compte  ✌️
                     </Text>
                 </Stack>
                 <Box
@@ -34,11 +49,11 @@ export function SignIn() {
                     p={8}>
                     <Stack spacing={4}>
                         <FormControl id="email">
-                            <FormLabel>Email address</FormLabel>
+                            <FormLabel>Nom d'utilisateur</FormLabel>
                             <Input type="email" />
                         </FormControl>
                         <FormControl id="password">
-                            <FormLabel>Password</FormLabel>
+                            <FormLabel>Mot de passe</FormLabel>
                             <Input type="password" />
                         </FormControl>
                         <Stack spacing={10}>
@@ -46,18 +61,18 @@ export function SignIn() {
                                 direction={{ base: 'column', sm: 'row' }}
                                 align={'start'}
                                 justify={'space-between'}>
-                                <Checkbox>Remember me</Checkbox>
-                                <Link color={'blue.400'}>Forgot password?</Link>
+                                <Checkbox>Se souvenir de moi</Checkbox>
+                                <Link color={'green.400'}>Mot de passe oublié?</Link>
                             </Stack>
                             <Button
-                                bg={'blue.400'}
+                                bg={'green.300'}
                                 color={'white'}
                                 as={'a'}
-                                href={'/app'}
+                                onClick={validateUser}
                                 _hover={{
-                                    bg: 'blue.500',
+                                    bg: 'green.500',
                                 }}>
-                                Sign in
+                                Connection
                             </Button>
                         </Stack>
                     </Stack>
