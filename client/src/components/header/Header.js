@@ -13,7 +13,7 @@ import {
     PopoverContent,
     useColorModeValue,
     useBreakpointValue,
-    useDisclosure, Menu, MenuButton, Avatar, MenuList, MenuItem, MenuDivider,
+    useDisclosure, Menu, MenuButton, MenuList, MenuItem, MenuDivider,
 } from '@chakra-ui/react';
 import {
     HamburgerIcon,
@@ -21,12 +21,20 @@ import {
     ChevronDownIcon,
     ChevronRightIcon, SettingsIcon,
 } from '@chakra-ui/icons';
-import {useDispatch, useSelector} from "react-redux";
-
+import {useSelector} from "react-redux";
+import {useNavigate} from "react-router";
+import {store} from "../../redux/store";
+import {toggleLogin} from "../../redux/userSlice";
+import ScollingModal from "../modals/scrollingModal/ScollingModal"
 export default function Header() {
     const { isOpen, onToggle } = useDisclosure();
     const user = useSelector(state => state.user)
-    const dispatch = useDispatch()
+    const navigate = useNavigate();
+
+    function logOut(){
+        store.dispatch(toggleLogin())
+        navigate('/');
+    }
 
     return (
         <Box>
@@ -62,7 +70,7 @@ export default function Header() {
                     </Text>
 
                     <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-                        <DesktopNav />
+                            <DesktopNav/>
                     </Flex>
                 </Flex>
 
@@ -78,7 +86,9 @@ export default function Header() {
                             fontSize={'sm'}
                             fontWeight={400}
                             variant={'link'}
-                            href={'/connexion'}>
+                            onClick={()=> navigate('/connexion')}
+                            >
+
                             Sign In
                         </Button>
                     }
@@ -90,7 +100,7 @@ export default function Header() {
                             fontWeight={600}
                             color={'white'}
                             bg={'green.400'}
-                            href={'/inscription'}
+                            onClick={()=> navigate('/inscription')}
                             _hover={{
                                 bg: 'green.300',
                             }}>
@@ -109,10 +119,9 @@ export default function Header() {
                             </MenuButton>
                         }
                         <MenuList>
-                            <MenuItem>Link 1</MenuItem>
-                            <MenuItem>Link 2</MenuItem>
+                            <MenuItem><ScollingModal/></MenuItem>
                             <MenuDivider />
-                            <MenuItem>Link 3</MenuItem>
+                            <MenuItem onClick={logOut}>Se déconnecter</MenuItem>
                         </MenuList>
                     </Menu>
                 </Stack>
@@ -126,6 +135,7 @@ export default function Header() {
 }
 
 const DesktopNav = () => {
+    const navigate = useNavigate();
     const linkColor = useColorModeValue('gray.600', 'gray.200');
     const linkHoverColor = useColorModeValue('gray.800', 'white');
     const popoverContentBgColor = useColorModeValue('white', 'gray.800');
@@ -138,7 +148,7 @@ const DesktopNav = () => {
                         <PopoverTrigger>
                             <Link
                                 p={2}
-                                href={navItem.href ?? '#'}
+                                onClick={()=> navigate(navItem.href ?? '#')}
                                 fontSize={'sm'}
                                 fontWeight={500}
                                 color={linkColor}
@@ -221,6 +231,7 @@ const MobileNav = () => {
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
     const { isOpen, onToggle } = useDisclosure();
+    const navigate = useNavigate()
 
     return (
         <Stack spacing={4} onClick={children && onToggle}>
@@ -259,7 +270,9 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
                     align={'start'}>
                     {children &&
                         children.map((child) => (
-                            <Link key={child.label} py={2} href={child.href}>
+                            <Link key={child.label} py={2}
+                                  onClick={()=> navigate(child.href)}
+                            >
                                 {child.label}
                             </Link>
                         ))}
@@ -278,20 +291,8 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
     {
-        label: 'Accueil',
-        href: '/accueil',
-        children: [
-            {
-                label: 'Explore Design Work',
-                subLabel: 'Trending Design to inspire you',
-                href: '#',
-            },
-            {
-                label: 'New & Noteworthy',
-                subLabel: 'Up-and-coming Designers',
-                href: '#',
-            },
-        ],
+        label: "Application",
+        href: '/',
     },
     {
         label: 'À propos',
@@ -305,22 +306,6 @@ const NAV_ITEMS: Array<NavItem> = [
             {
                 label: 'New & Noteworthy',
                 subLabel: 'Up-and-coming Designers',
-                href: '#',
-            },
-        ],
-    },
-    {
-        label: "Équipe",
-        href: '/equipe',
-        children: [
-            {
-                label: 'Job Board',
-                subLabel: 'Find your dream design job',
-                href: '#',
-            },
-            {
-                label: 'Freelance Projects',
-                subLabel: 'An exclusive list for contract work',
                 href: '#',
             },
         ],
