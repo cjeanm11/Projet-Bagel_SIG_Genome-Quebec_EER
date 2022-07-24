@@ -44,4 +44,10 @@ Durant ce temps, j'ai fait:
 - Ajout de fonctionnalités de base et différentes composantes: Header, Footer, page accueil, etc.
 - Préparation de la base technique pour l'utilisation de l'outil redux - un outil qui nous permettra de partager de 'state' à travers plusieurs composantes.
 
-#### 27 juin - 11 juillet 2022 :
+#### 27 juin - 25 juillet 2022 :
+
+Durant cette periode, j'ai beaucoup travailler sur la creation d'un prototype de base front-end qu'on pourra présenter dans le but d'avoir un retour d'information.
+Pour simplifier, on a exclue des aspects fonctionnels simplement pour ne pas perdre du temps sur cette tache.
+Cela comprend la creation de different composante: different modale, page, la carte, etc
+J'ai aussi travaillé sur des aspects fonctionnels relié aux changements du contexte de l'application.
+
