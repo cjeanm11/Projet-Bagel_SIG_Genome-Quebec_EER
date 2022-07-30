@@ -25,7 +25,7 @@ export const MarkerContainer = (props) => {
 
 
                 <Stack direction="row" spacing={3} align='center'>
-                    <Tooltip label='Ajouter une étiquette' zIndex={-1} >
+                    <Tooltip label='Ajouter une étiquette' zIndex={0} >
                         <CustomCard>
                             <AddMarkerModal />
                         </CustomCard>
