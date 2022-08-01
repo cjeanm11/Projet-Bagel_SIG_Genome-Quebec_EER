@@ -8,7 +8,7 @@ export const SignInPage = (props) => {
     return (
         <div className="wrapper">
             <ChakraProvider>
-                <SignIn />
+                <SignIn className="signIn" />
             </ChakraProvider>
         </div>
     )
