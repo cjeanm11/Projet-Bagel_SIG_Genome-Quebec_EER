@@ -76,7 +76,6 @@ fabric.properties
 
 # covers Vscode
 .vscode/*
-!.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
@@ -87,5 +86,5 @@ fabric.properties
 
 # Built Visual Studio Code Extensions
 *.vsix
-
-.env
+package-lock.json
+.vscode/settings.json
