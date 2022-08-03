@@ -12,11 +12,11 @@ const User = require("./src/models/User");
 const Observation = require("./src/models/Observation");
 
 const app = express();
-const port = 3000;
+const port = 5000;
 const url =
   "mongodb+srv://root:" +
   process.env.MONGODB_PWD +
-  "@cluster0.0qjvtyf.mongodb.net/my_db?retryWrites=true&w=majority";
+  "@cluster0.0qjvtyf.mongodb.net/GIS_App?retryWrites=true&w=majority";
 mongoose.connect(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -40,12 +40,12 @@ app.use(bodyParser.json());
 app.post("/users/signup", async (request, response) => {
   const userToSave = {
     id: uuid(),
-    prenom: request.body.firstName,
-    nom: request.body.lastName,
+    prenom: request.body.prenom,
+    nom: request.body.prenom,
     email: request.body.email,
     password: request.body.password,
-    role: request.body.role,
-    ecole: request.body.school,
+    role: request.body.role ? request.body.role : "Élève"
+    // ecole: request.body.school,
   };
   try {
     if (
@@ -56,9 +56,7 @@ app.post("/users/signup", async (request, response) => {
       const user = await User.findOne({ email: userToSave.email });
       if (user) {
         const msg =
-          "Invalid registration - email '" +
-          userToSave.email +
-          "' already exists.";
+          "Un compte est déjà inscrit avec cet email: " + userToSave.email;
         console.log(msg);
         response.send({ success: false, msg: msg });
         return;
@@ -69,10 +67,10 @@ app.post("/users/signup", async (request, response) => {
         );
         userToSave.password = hashedPassword;
         const savedUser = await User.create(userToSave);
-        console.log("Registering user: " + userToSave.email);
+        const msg = "Compte créé avec succès";
         response.send({
           success: true,
-          msg: "User Registered",
+          msg: msg,
           data: savedUser,
         });
         return;
@@ -80,6 +78,8 @@ app.post("/users/signup", async (request, response) => {
     }
   } catch (error) {
     console.log("Database error: " + error.message);
+    response.send({ success: false, msg: error.message });
+
   }
 });
 
@@ -92,19 +92,19 @@ app.post("/users/signin", async (request, response) => {
       // Check to see if the user already exists. If not, then create it.
       const user = await User.findOne({ email: email });
       if (!user) {
-        const msg = "Invalid login - email " + email + " doesn't exist.";
+        const msg = "Email invalide: " + email;
         console.log(msg);
         response.send({ success: false, msg: msg });
         return;
       } else {
         const isSame = await bcrypt.compare(password, user.password);
         if (isSame) {
-          const msg = "Successful login";
+          const msg = "Authentification réussi";
           console.log(msg);
           response.send({ success: true, msg: msg, data: user });
           return;
         } else {
-          const msg = "Wrong password";
+          const msg = "Mot de passe erroné";
           console.log(msg);
           response.send({ success: false, msg: msg });
           return;
@@ -112,7 +112,8 @@ app.post("/users/signin", async (request, response) => {
       }
     }
   } catch (error) {
-    console.log(error.message);
+    console.log("Database error: " + error.message);
+    response.send({ success: false, msg: error.message });
   }
 });
 
