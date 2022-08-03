@@ -2,7 +2,7 @@ import 'leaflet/dist/leaflet.css'
 import './Map.css'
 import {MapContainer, Marker, Popup, TileLayer, useMapEvents} from "react-leaflet";
 import {MarkerContainer} from "../marker/MarkerContainer";
-import {useEffect, useState} from "react";
+import { useEffect, useState, useContext } from "react";
 import {altIconMarker, DefaultIconMarker} from "./utils/constants";
 import {
     Popover,
@@ -15,10 +15,12 @@ import {
     PopoverCloseButton,
     PopoverAnchor, Button,
 } from '@chakra-ui/react'
+import { LoggedInContext } from "../../App";
 
 
 
 export const Map = (props) => {
+  const [user, setUser] = useContext(LoggedInContext);
 
     const [position, setPosition] = useState(
         {
