@@ -2,40 +2,42 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
   {
-    id: {
-      type: String,
-      required: true,
-      // unique: true,
-    },
+    // id: {
+    //   type: String,
+    //   required: true,
+    //   // unique: true
+    // },
     prenom: {
       type: String,
-      required: true,
+      required: true
     },
     nom: {
       type: String,
-      required: true,
+      required: true
     },
-    email: {
+    identifiant: {
       type: String,
       required: true,
-      unique: true,
+      unique: true
     },
-    password: {
+    motDePasse: {
       type: String,
-      required: true,
+      required: true
     },
     role: {
       type: String,
       enum: ["Admin", "Enseignant", "Élève"],
-      required: true,
+      required: true
     },
     ecole: String,
+    centreDeServiceScolaire: String,
+    niveauScolaire: String
   },
   {
-    timestamps: true,
+    timestamps: true
   },
   {
-    collection: "users",
+    collection: "users"
   }
 );
 
