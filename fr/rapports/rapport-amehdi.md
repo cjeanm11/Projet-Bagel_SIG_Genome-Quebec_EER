@@ -46,3 +46,4 @@ Pendant cette période, j'ai:
 - Développé la gestion des requêtes dans le backend pour performer les opérations [CRUD](https://fr.wikipedia.org/wiki/CRUD) sur les usagers et les markers
 - Implanté le contexte d'authentification et mis à jour l'état correspondant au plus haut niveau de l'application pour stocker les données de l'usager identifié dans le storage du navigateur
 - Implanté l'envoi de requêtes par les formulaires d'authentification et adapté quelques composantes à ce contexte
+- Restructurer le code pour l'intégrer à l'architecture MVC
