@@ -33,7 +33,7 @@ Durant cette période, on a convenu qu'on allait utiliser l'architecture [MVC](h
 - Créé un compte et une base de données MongoDB
 - Conçu individuellement le [modèle de données](/projet-IFT3150/extra/diagramme.html) et créé les collections correspondantes
 
-![ER diagram](/projet-IFT3150/extra/diagramme.png)
+![ER diagram](https://i.imgur.com/kFJXBAT.png)
 
 - Implanté les champs correspondant au modèle de données avec l'interface Mongoose en tenant compte de leur types et contraintes
 - Développé et tester le traitement des requêtes pour les endpoint spécifiques à l'inscription et l'identification des usagers
