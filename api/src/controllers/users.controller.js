@@ -3,37 +3,93 @@ const UsersService = require('../services/users.service');
 const usersService = new UsersService();
 
 module.exports = {
-  getUsers: function (req, res) {
-    res.json(usersService.getUsers(req, res))
+  getUsers: async function (req, res) {
+    try {
+      const users = await usersService.getUsers();
+      res.status(200).send({ status: 200, users: users });
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).send({ status: 400, message: error.message });
+    }
   },
-  getUser: function (req, res) {
-    res.json(usersService.getUser(req, res))
+
+  getUser: async function (req, res) {
+    try {
+      const user = await usersService.getUser(req.params.id);
+      res.status(200).send({ status: 200, user: user });
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).send({ status: 400, message: error.message });
+    }
   },
-  getStudents: function (req, res) {
-    res.json(usersService.getStudents(req, res))
+
+  getStudents: async function (req, res) {
+    try {
+      const students = await usersService.getStudents();
+      res.status(200).send({ status: 200, students: students });
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).send({ status: 400, message: error.message });
+    }
   },
-  // getPendingStudents: function (req, res) {
-  //   res.json(usersService.getPendingStudents())
-  // },
-  getTeachers: function (req, res) {
-    res.json(usersService.getTeachers(req, res))
+
+  getTeachers: async function (req, res) {
+    try {
+      const teachers = await usersService.getTeachers();
+      res.status(200).send({ status: 200, teachers: teachers });
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).send({ status: 400, message: error.message });
+    }
   },
-  // getPendingTeachers: function (req, res) {
-  //   res.json(usersService.getPendingTeachers())
-  // },
-  getAdmins: function (req, res) {
-    res.json(usersService.getAdmins(req, res))
+
+  getAdmins: async function (req, res) {
+    try {
+      const admins = await usersService.getAdmins();
+      res.status(200).send({ status: 200, admins: admins });
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).send({ status: 400, message: error.message });
+    }
   },
-  signUpUser: function (req, res) {
-    res.json(usersService.signupUser(req, res))
+
+  signUpUser: async function (req, res) {
+    try {
+      const signedUpUser = await usersService.signUpUser(req.body.user);
+      res.status(200).send({ status: 200, user: signedUpUser });
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).send({ status: 400, message: error.message });
+    }
   },
-  signInUser: function (req, res) {
-    res.json(usersService.signinUser(req, res))
+
+  signInUser: async function (req, res) {
+    try {
+      const user = await usersService.signInUser(req.body.identifiant, req.body.motDePasse);
+      res.status(200).send({ status: 200, user: user });
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).send({ status: 400, message: error.message });
+    }
   },
-  updateUser: function (req, res) {
-    res.json(usersService.updateUser(req, res))
+
+  updateUser: async function (req, res) {
+    try {
+      const updatedUser = await usersService.updateUser(req.body.userToUpdate);
+      res.status(200).send({ status: 200, user: updatedUser });
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).send({ status: 400, message: error.message });
+    }
   },
-  deleteUser: function (req, res) {
-    res.json(usersService.deleteUser(req, res))
-  },
+
+  deleteUser: async function (req, res) {
+    try {
+      await usersService.deleteUser(req.params.id);
+      res.status(200).send({ status: 200 });
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).send({ status: 400, message: error.message });
+    }
+  }
 }
