@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('api:server');
 var http = require('http');
+var mongoose = require("mongoose");
 
 /**
  * Get port from environment and store in Express.
@@ -28,6 +29,21 @@ var server = http.createServer(app);
 server.listen(port, () => { console.log("Server started on port : "+ port)});
 server.on('error', onError);
 server.on('listening', onListening);
+
+/**
+ * Database connection.
+ */
+
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  autoIndex: true,
+});
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "Connection error: "));
+db.once("open", () => {
+  console.log("Connected successfully to MongoDB");
+});
 
 /**
  * Normalize a port into a number, string, or false.

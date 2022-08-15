@@ -5,7 +5,7 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"command": "cd api; npm start",
+			"command": "cd api; npm run dev",
 			"name": "Run back-end",
 			"request": "launch",
 			"type": "node-terminal"
@@ -15,12 +15,25 @@
 			"name": "Run front-end",
 			"request": "launch",
 			"type": "node-terminal"
+		},
+		{
+			"type": "firefox",
+			"request": "launch",
+			"reAttach": true,
+			"name": "Launch Firefox",
+			"url": "http://localhost:3000/",
+			"webRoot": "${workspaceFolder}/client/src/"
 		}
 	],
 	"compounds": [
 		{
+			"name": "Run front-end with debugger",
+			"configurations": ["Run front-end", "Launch Firefox"],
+			"stopAll": true
+		},
+		{
 			"name": "Launch App",
-			"configurations": ["Run back-end", "Run front-end"],
+			"configurations": ["Run back-end", "Run front-end", "Launch Firefox"],
 			"stopAll": true
 		}
 	]
