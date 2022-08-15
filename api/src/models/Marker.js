@@ -11,7 +11,7 @@ const MarkerSchema = new mongoose.Schema(
       type: mongoose.ObjectId,
       ref: "User"
     },
-    coordonees: {
+    latlng: {
       latitude: {
         type: Number,
         required: true
@@ -25,7 +25,7 @@ const MarkerSchema = new mongoose.Schema(
     dateDechantillonage: {
       // YYYY-MM-DD format
       type: Date,
-      required: true
+      // required: true
     },
     ciel: {
       type: String,
@@ -55,7 +55,7 @@ const MarkerSchema = new mongoose.Schema(
     },
     quantiteDalgues: {
       type: String,
-      enum: ["Trés faible", "Faible", "Moyenne", "Importante"]
+      enum: ["Très faible", "Faible", "Moyenne", "Importante"]
     },
     sourcesDeContamination: {
       type: String,
@@ -78,7 +78,7 @@ const MarkerSchema = new mongoose.Schema(
       poissons: [{
         type: String
       }],
-      decouvertCocasses: [{
+      decouverteCocasses: [{
         type: String
       }]
     }
