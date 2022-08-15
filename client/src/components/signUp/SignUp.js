@@ -18,46 +18,46 @@ import { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 // import { UserProvider } from "../../contexts/UserContext";
-import { LoggedInContext } from "../../App";
+import { UserContext } from "../../App";
 
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
-  const [user, setUser] = useContext(LoggedInContext);
+  const [user, setUser] = useContext(UserContext);
   const navigate = useNavigate();
-  if (user) {
-    navigate('/app');
-  }
+  // if (user) navigate('/app');
   const firstNameRef = useRef();
   const lastNameRef = useRef();
-  const emailRef = useRef();
+  const usernameRef = useRef();
   const passwordRef = useRef();
 
   const url = "http://localhost:5000";
   const handleSubmit = (event) => {
     event.preventDefault(); // prevent page reload
-
+    const userToSignUp = {
+      prenom: firstNameRef.current.value,
+      nom: lastNameRef.current.value,
+      identifiant: usernameRef.current.value,
+      motDePasse: passwordRef.current.value,
+    }
     fetch(url + "/users/signup", {
       method: "POST",
       body: JSON.stringify({
-        prenom: firstNameRef.current.value,
-        nom: lastNameRef.current.value,
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
+        user: userToSignUp
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     })
-      .then((data) => data.json())
+      .then((res) => res.json())
       .then((json) => {
-        if (json.success) {
-          const savedUser = json.data;
+        if (json.status === 200) {
+          const savedUser = json.user;
           setUser(savedUser);
           sessionStorage.setItem('user', JSON.stringify(savedUser));
           navigate("/");
         } else {
-          alert(json.msg);
+          alert(json.message);
         }
       });
   }
@@ -72,13 +72,15 @@ export default function SignUp() {
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
           <Heading fontSize={"4xl"} textAlign={"center"}>
-            Sign up
+            Inscrivez-vous
           </Heading>
           <Text fontSize={"lg"} color={"gray.600"}>
-            to enjoy all of our cool features ✌️
+            pour accéder à toutes les fonctionnalités
           </Text>
         </Stack>
         <Box
+          as="form"
+          onSubmit={handleSubmit}
           rounded={"lg"}
           bg={useColorModeValue("white", "gray.700")}
           boxShadow={"lg"}
@@ -86,34 +88,34 @@ export default function SignUp() {
         >
           <Stack spacing={4}>
             <HStack>
-              <Box>
-                <FormControl id="firstName" isRequired>
-                  <FormLabel>First Name</FormLabel>
-                  <Input
-                    type="text"
-                    ref={firstNameRef}
-                  />
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl id="lastName" isRequired>
-                  <FormLabel>Last Name</FormLabel>
-                  <Input
-                    type="text"
-                    ref={lastNameRef}
-                  />
-                </FormControl>
-              </Box>
+              {/* <Box> */}
+              <FormControl id="firstName" isRequired>
+                <FormLabel>Prénom</FormLabel>
+                <Input
+                  type="text"
+                  ref={firstNameRef}
+                />
+              </FormControl>
+              {/* </Box> */}
+              {/* <Box> */}
+              <FormControl id="lastName" isRequired>
+                <FormLabel>Nom</FormLabel>
+                <Input
+                  type="text"
+                  ref={lastNameRef}
+                />
+              </FormControl>
+              {/* </Box> */}
             </HStack>
-            <FormControl id="email" isRequired>
-              <FormLabel>Email address</FormLabel>
+            <FormControl id="username" isRequired>
+              <FormLabel>Identifiant</FormLabel>
               <Input
-                type="email"
-                ref={emailRef}
+                type="text"
+                ref={usernameRef}
               />
             </FormControl>
             <FormControl id="password" isRequired>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Mot de passe</FormLabel>
               <InputGroup>
                 <Input
                   type={showPassword ? "text" : "password"}
@@ -134,11 +136,10 @@ export default function SignUp() {
             <Stack spacing={10} pt={2}>
               <Button
                 type="submit"
-                loadingText="Submitting"
+                loadingText="Envoi..."
                 size="lg"
                 bg={"green.400"}
                 color={"white"}
-                onClick={handleSubmit}
                 _hover={{
                   bg: "green.300",
                 }}
@@ -148,12 +149,18 @@ export default function SignUp() {
             </Stack>
             <Stack pt={6}>
               <Text align={"center"}>
-                Already a user? <Link color={"green.400"}>S'inscrire</Link>
+                Vous avez déjà un compte?{' '}
+                <Link
+                  color={"green.400"}
+                  href='/connexion'
+                >
+                  Se connecter
+                </Link>
               </Text>
             </Stack>
           </Stack>
         </Box>
       </Stack>
-    </Flex>
+    </Flex >
   );
 }
