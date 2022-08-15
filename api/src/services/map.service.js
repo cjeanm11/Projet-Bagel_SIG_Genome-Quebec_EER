@@ -1,51 +1,26 @@
+const Marker = require("../models/Marker");
+
 class MapService {
   constructor() { }
 
-  // getMap = (req, res) => {
+  // getMap() {
   //   return {}
   // }
 
-  getMarkers = (req, res) => {
-    try {
-      const markers = await Marker.find();
-      res.status(200).send({ success: true, data: markers });
-    } catch (error) {
-      console.log(error.message);
-      res.status(500).send({ success: false, msg: error.message });
-    }
+  async getMarkers() {
+    return await Marker.find();
   }
 
-  addMarker = (req, res) => {
-    try {
-      const markerToSave = req.body.marker;
-      const savedMarker = await Marker.create(markerToSave);
-      res.status(200).send(savedMarker);
-    }
-    catch (error) {
-      console.log(error.message);
-      res.status(500).send({ success: false, msg: error.message });
-    }
+  async addMarker(markerToSave) {
+    return await Marker.create(markerToSave);
   }
 
-  updateMarker = (req, res) => {
-    try {
-      const savedMarker = await Marker.findOneAndReplace({ _id: req.params.id }, req.body.marker)
-      res.status(200).send(savedMarker);
-    }
-    catch (error) {
-      console.log(error.message);
-      res.status(500).send({ success: false, msg: error.message });
-    }
+  async updateMarker(markerToUpdate) {
+    return await Marker.findOneAndReplace({ _id: markerToUpdate._id }, markerToUpdate)
   }
 
-  deleteMarker = (req, res) => {
-    try {
-      await User.findByIdAndRemove(req.params.id);
-      res.status(200).send({ success: true });
-    } catch (error) {
-      console.log(error.message);
-      res.status(500).send({ success: false, msg: error.message });
-    }
+  async deleteMarker(id) {
+    await Marker.findByIdAndRemove(id);
   }
 }
 
