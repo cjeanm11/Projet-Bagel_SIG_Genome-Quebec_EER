@@ -6,9 +6,7 @@ module.exports = function (app) {
   app.get('/users', usersController.getUsers);
   app.get('/users/:id', usersController.getUser);
   app.get('/users/students', usersController.getStudents);
-  // app.get('/users/students/pending', usersController.getPendingStudents);
   app.get('/users/teachers', usersController.getTeachers);
-  // app.get('/users/teachers/pending', usersController.getPendingTeachers);
   app.get('/users/admins', usersController.getAdmins);
   // app.get('/map', mapController.getMap);
   app.get('/map/markers', mapController.getMarkers);
