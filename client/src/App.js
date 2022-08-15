@@ -10,10 +10,10 @@ import { ChakraProvider } from '@chakra-ui/react'
 import Header from "./components/header/Header";
 import { Footer } from "./components/footer/Footer";
 import { SignUpPage } from "./components/signUp/SignUpPage";
-// import { UserProvider, LoggedInContext } from "./contexts/UserContext";
+// import { UserProvider, UserContext } from "./contexts/UserContext";
 // import {useSelector} from "react-redux";
 
-export const LoggedInContext = createContext({
+export const UserContext = createContext({
   user: null,
   setUser: () => { },
 });
@@ -25,7 +25,7 @@ const App = props => {
   // const loggedInValueToProvide = [user, setUser]; // So we can pass down both value and setter
 
   return (
-    <LoggedInContext.Provider value={[user, setUser]}>
+    <UserContext.Provider value={[user, setUser]}>
       <Router>
         <ChakraProvider>
           <div style={{ position: 'relative', zIndex: '2' }}>
@@ -54,7 +54,7 @@ const App = props => {
           <Footer />
         </ChakraProvider>
       </div>
-    </LoggedInContext.Provider>
+    </UserContext.Provider>
   );
 };
 

@@ -28,11 +28,11 @@ import { useContext } from "react";
 import { store } from "../../redux/store";
 import { toggleLogin } from "../../redux/userSlice";
 import ScollingModal from "../modals/scrollingModal/ScollingModal"
-import { LoggedInContext } from "../../App";
+import { UserContext } from "../../App";
 
 export default function Header() {
   const { isOpen, onToggle } = useDisclosure();
-  const [user, setUser] = useContext(LoggedInContext);
+  const [user, setUser] = useContext(UserContext);
 
   const navigate = useNavigate();
 
