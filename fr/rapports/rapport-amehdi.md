@@ -47,3 +47,18 @@ Pendant cette période, j'ai:
 - Implanté le contexte d'authentification et mis à jour l'état correspondant au plus haut niveau de l'application pour stocker les données de l'usager identifié dans le storage du navigateur
 - Implanté l'envoi de requêtes par les formulaires d'authentification et adapté quelques composantes à ce contexte
 - Restructurer le code pour l'intégrer à l'architecture MVC
+
+
+## 7 Août - 21 Août 2022
+
+Pendant cette période, j'ai:
+- Rajouté les codes de réponse HTTP aux traitement des requêtes
+- Implanté l'envoi de requêtes pour le chargement des étiquettes de la base de donnée et leur affichage sur la carte
+- Implanté l'envoi de requêtes pour l'ajout, la modification, la suppression des marqueurs et leur sauvegarde dans la base de données
+- Rajouté l'interface graphique pour la visualisation des données d'une étiquette, sa modification et suppression
+- Rajouté l'interface graphique et l'envoi de requêtes pour l'ajout des résultats d'analyses d'un échantillon et leur visualisation
+- Adapté les opérations CRUD permises sur les étiquettes selon le type d'usager (élève, enseignant ou admin)
+- Implanté l'assignation du rôle et CSS/École/Classe de l'usager avec un système de code d'accès généré par l'administrateur
+- Travaillé sur divers élèments de l'interface utilisateur
+- Créé les icones de Mission ADN-eau pour les utiliser comme marqueurs si besoin
+- Établi un code de couleur pour les marqueurs selon leur type 
