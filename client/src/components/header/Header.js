@@ -13,7 +13,7 @@ import {
   PopoverContent,
   useColorModeValue,
   useBreakpointValue,
-  useDisclosure, Menu, MenuButton, MenuList, MenuItem, MenuDivider,
+  useDisclosure, Menu, MenuButton, MenuList, MenuItem, MenuDivider, Divider,
 } from '@chakra-ui/react';
 import {
   HamburgerIcon,
@@ -24,16 +24,16 @@ import {
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useContext } from "react";
-
+import Logo from "../logo/Logo"
 import { store } from "../../redux/store";
 import { toggleLogin } from "../../redux/userSlice";
-import ScollingModal from "../modals/scrollingModal/ScollingModal"
+import SettingsModal from "../modals/settingsModal/SettingsModal"
+import AdminDashboardModal from "../modals/adminDashboardModal/AdminDashboardModal"
 import { UserContext } from "../../App";
 
 export default function Header() {
   const { isOpen, onToggle } = useDisclosure();
   const [user, setUser] = useContext(UserContext);
-
   const navigate = useNavigate();
 
   function logOut() {
@@ -69,52 +69,60 @@ export default function Header() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}>
-            Logo
-          </Text>
-
+          <Logo onClick={() => navigate('/')}/>
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             <DesktopNav />
           </Flex>
         </Flex>
-
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={'flex-end'}
-          direction={'row'}
-          spacing={6}>
-
-          {!user &&
-            <Button
-              as={'a'}
-              fontSize={'sm'}
-              fontWeight={400}
-              variant={'link'}
-              onClick={() => navigate('/connexion')}
-            >
-              Se connecter
-            </Button>
-          }
-          {!user &&
+        {!user &&
+          <Stack
+            flex={{ base: 1, md: 0 }}
+            justify={'flex-end'}
+            direction={'row'}
+            spacing={6}>
             <Button
               display={{ base: 'none', md: 'inline-flex' }}
               fontSize={'sm'}
               as={'a'}
-              fontWeight={600}
+              fontWeight="bold"
               color={'white'}
               bg={'green.400'}
-              onClick={() => navigate('/inscription')}
+              onClick={() => navigate('/connexion')}
               _hover={{
                 bg: 'green.300',
+              }}
+            >
+              Se connecter
+            </Button>
+            <Button
+              display={{ base: 'none', md: 'inline-flex' }}
+              fontSize={'sm'}
+              as={'a'}
+              fontWeight="bold"
+              color={'white'}
+              bg={'green.300'}
+              onClick={() => navigate('/inscription')}
+              _hover={{
+                bg: 'green.200',
               }}>
               S'inscrire
             </Button>
-          }
-          <Menu>
-            {user &&
+          </Stack>
+        }
+        {user &&
+          <Stack
+            // display={{ base: 'flex', justifyContent: 'center', alignItems: 'center'}}
+            // align={{ flex: 'center'}}
+            direction={'row'}
+            spacing={6}
+          >
+            <Stack mt={2} direction={'row'} spacing={6}>
+              <Text fontWeight="bold">{user.nom + ", " + user.prenom}</Text>
+              <Divider orientation='vertical' />
+              <Text fontWeight="bold">{user.role}</Text>
+              <Divider orientation='vertical' />
+            </Stack>
+            <Menu>
               <MenuButton
                 as={Button}
                 rounded={'full'}
@@ -123,14 +131,32 @@ export default function Header() {
                 minW={0}>
                 <IconButton aria-label={"ded"} color={'blackAlpha.900'} icon={<SettingsIcon />}></IconButton>
               </MenuButton>
-            }
-            <MenuList>
-              <MenuItem><ScollingModal /></MenuItem>
-              <MenuDivider />
-              <MenuItem onClick={logOut}>Se déconnecter</MenuItem>
-            </MenuList>
-          </Menu>
-        </Stack>
+              <MenuList>
+                <MenuItem><SettingsModal /></MenuItem>
+                {user.role === "Admin" &&
+                  <>
+                    <MenuDivider />
+                    <MenuItem><AdminDashboardModal /></MenuItem>
+                  </>
+                }
+              </MenuList>
+            </Menu>
+            <Button
+              display={{ base: 'none', md: 'inline-flex' }}
+              fontSize={'sm'}
+              as={'a'}
+              fontWeight="bold"
+              color={'white'}
+              bg={'green.400'}
+              onClick={logOut}
+              _hover={{
+                bg: 'green.300',
+              }}>
+              Déconnexion
+            </Button>
+          </Stack>
+
+        }
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
@@ -142,6 +168,7 @@ export default function Header() {
 
 const DesktopNav = () => {
   const navigate = useNavigate();
+
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
   const popoverContentBgColor = useColorModeValue('white', 'gray.800');
@@ -153,14 +180,15 @@ const DesktopNav = () => {
           <Popover trigger={'hover'} placement={'bottom-start'}>
             <PopoverTrigger>
               <Link
-                p={2}
+                p={5}
                 onClick={() => navigate(navItem.href ?? '#')}
-                fontSize={'sm'}
-                fontWeight={500}
+                fontSize="xl"
+                fontWeight="bold"
                 color={linkColor}
                 _hover={{
                   textDecoration: 'none',
                   color: linkHoverColor,
+                  backgroundColor: 'lightgrey',
                 }}>
                 {navItem.label}
               </Link>
@@ -236,8 +264,8 @@ const MobileNav = () => {
 };
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
+  const navigate = useNavigate();
   const { isOpen, onToggle } = useDisclosure();
-  const navigate = useNavigate()
 
   return (
     <Stack spacing={4} onClick={children && onToggle}>
@@ -297,8 +325,8 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
-    label: "Application",
-    href: '/',
+    label: "Carte",
+    href: '/carte',
   },
   {
     label: 'À propos',
