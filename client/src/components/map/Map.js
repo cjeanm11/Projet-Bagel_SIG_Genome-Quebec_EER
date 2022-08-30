@@ -3,7 +3,16 @@ import './Map.css'
 import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from "react-leaflet";
 import { MarkerContainer } from "../marker/MarkerContainer";
 import { useEffect, useState, useContext } from "react";
-import { altIconMarker, DefaultIconMarker } from "./utils/constants";
+import {
+  defaultIconMarker,
+  withResultsIconMarker,
+  editableIconMarker,
+  newIconMarker,
+  maeGreenIcon,
+  maeRedIcon,
+  maeLightRedIcon,
+  editableWithResultsIconMarker
+} from "./utils/constants";
 import {
   Popover,
   PopoverTrigger,
@@ -19,46 +28,71 @@ import { UserContext } from "../../App";
 
 export const Map = (props) => {
   const [user, setUser] = useContext(UserContext);
-
-  const [position, setPosition] = useState(
+  const [markers, setMarkers] = useState([]);
+  const [mapPosition, setMapPosition] = useState(
     {
       lat: 45.50,
       lng: -73.61,
-      zoom: 13,
-    })
+      zoom: 10,
+    });
 
-  const [markers, setMarkers] = useState([])
   useEffect(() => {
+    window.history.pushState("", document.title, window.location.pathname);
     fetch("/map/markers")
       .then(res => res.json())
       .then((json) => setMarkers(json.markers))
+  }, [mapPosition]);
 
-  }, [])
-  function LocationMarker() {
-    const [position, setPosition] = useState(null)
+  const LocationMarker = () => {
+    const [position, setPosition] = useState(null);
     const map = useMapEvents({
       click(e) {
         setPosition(e.latlng)
-        console.log(e.latlng)
       }
-    })
+    });
 
     return position === null ? null : (
-      <MarkerContainer marker={position} icon={altIconMarker} typeMarker="new"></MarkerContainer>
+      <MarkerContainer
+        position={position}
+        marker={null}
+        mapPosition={mapPosition}
+        setMapPosition={setMapPosition}
+        icon={newIconMarker}
+        typeMarker="new" />
     )
   }
 
   return (
-    <MapContainer center={[position.lat, position.lng]} zoom={position.zoom}>
+    <MapContainer center={[mapPosition.lat, mapPosition.lng]} zoom={mapPosition.zoom}>
       <TileLayer
         url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
       />
-      <LocationMarker />
+      {user && <LocationMarker />}
       {markers.map((marker, i) =>
       (
-        <MarkerContainer key={i} marker={marker} i={i} icon={DefaultIconMarker} typeMarker="old" > </MarkerContainer>
-      )
-      )}
+        <MarkerContainer
+          key={i}
+          i={i}
+          icon={
+            user ?
+              marker.userId === user._id ?
+                marker.resultats.disponibles ?
+                  editableWithResultsIconMarker :
+                  editableIconMarker :
+                marker.resultats.disponibles ?
+                  withResultsIconMarker :
+                  defaultIconMarker :
+              marker.resultats.disponibles ?
+                withResultsIconMarker :
+                defaultIconMarker
+          }
+          position={[marker.coordonnees.latitude, marker.coordonnees.longitude]}
+          marker={marker}
+          mapPosition={mapPosition}
+          setMapPosition={setMapPosition}
+          typeMarker="old"
+        />
+      ))}
     </MapContainer>
   )
 }
