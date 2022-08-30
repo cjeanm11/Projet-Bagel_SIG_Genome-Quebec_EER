@@ -2,11 +2,6 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
   {
-    // id: {
-    //   type: String,
-    //   required: true,
-    //   // unique: true
-    // },
     prenom: {
       type: String,
       required: true
@@ -30,8 +25,8 @@ const UserSchema = new mongoose.Schema(
       required: true,
       default: "Élève"
     },
+    centreDeServicesScolaire: String,
     ecole: String,
-    centreDeServiceScolaire: String,
     niveauScolaire: String
   },
   {

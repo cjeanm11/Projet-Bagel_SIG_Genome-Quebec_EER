@@ -1,17 +1,13 @@
 const mongoose = require("mongoose");
+const User = require("./User");
 
 const MarkerSchema = new mongoose.Schema(
   {
-    // id: {
-    //   type: String,
-    //   required: true,
-    //   // unique: true,
-    // },
     userId: {
       type: mongoose.ObjectId,
-      ref: "User"
+      ref: 'User'
     },
-    latlng: {
+    coordonnees: {
       latitude: {
         type: Number,
         required: true
@@ -57,28 +53,33 @@ const MarkerSchema = new mongoose.Schema(
       type: String,
       enum: ["Très faible", "Faible", "Moyenne", "Importante"]
     },
-    sourcesDeContamination: {
-      type: String,
-      enum: [
-        "Pollution près ou dans le cours d'eau",
-        "Résidences à proximité ou routes",
-        "Pollution d'origine industrielle",
-        "Pollution d'origine agricole",
-      ]
-    },
+    sourcesDeContamination: [{
+      type: String
+    }],
     resultats: {
+      disponibles: {
+        type: Boolean,
+        required: true,
+        default: false
+      },
       macroinvertebres: [{
         type: String
       }],
       microorganismes: {
-        bacteries: String,
-        protistes: String,
-        archees: String
+        bacteries: {
+          type: String
+        },
+        protistes: {
+          type: String
+        },
+        archees: {
+          type: String
+        }
       },
       poissons: [{
         type: String
       }],
-      decouverteCocasses: [{
+      decouvertesCocasses: [{
         type: String
       }]
     }
