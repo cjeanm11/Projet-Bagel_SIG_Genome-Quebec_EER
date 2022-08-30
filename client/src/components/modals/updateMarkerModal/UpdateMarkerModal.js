@@ -24,37 +24,37 @@ import {
 } from "@chakra-ui/react";
 import { useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router';
-import { AddIcon } from "@chakra-ui/icons";
-import './AddMarkerModal.css'
+import { EditIcon } from "@chakra-ui/icons";
 import { BsCloudSun, BsCloudyFill, BsCloudRainFill, BsSun } from "react-icons/bs";
 import { UserContext } from "../../../App";
 
 export default function AddMarkerModal(props) {
-  const [user, setUser] = useContext(UserContext);
+  // const [user, setUser] = useContext(UserContext);
+  const marker = props.marker;
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [scrollBehavior] = useState('outside')
   const toast = useToast()
   const navigate = useNavigate();
 
   const btnRef = useRef(null)
-  const [coursDeau, setCoursDeau] = useState("");
-  const [dateDechantillonage, setDateDechantillonage] = useState(null);
-  const [ciel, setCiel] = useState("");
-  const [berges, setBerges] = useState("");
-  const [couleurDeau, setCouleurDeau] = useState("");
-  const [fondDeau, setFondDeau] = useState("");
-  const [quantiteDalgues, setQuantiteDalgues] = useState("");
-  const [sourcesDeContamination, setSourcesDeContamination] = useState([]);
+
+  const [coursDeau, setCoursDeau] = useState(marker.coursDeau);
+  const [dateDechantillonage, setDateDechantillonage] = useState(marker.dateDechantillonage.split("T")[0]);
+  const [ciel, setCiel] = useState(marker.ciel);
+  const [berges, setBerges] = useState(marker.berges);
+  const [couleurDeau, setCouleurDeau] = useState(marker.couleurDeau);
+  const [fondDeau, setFondDeau] = useState(marker.fondDeau);
+  const [quantiteDalgues, setQuantiteDalgues] = useState(marker.quantiteDalgues);
+  const [sourcesDeContamination, setSourcesDeContamination] = useState(marker.sourcesDeContamination);
+
 
   const url = "http://localhost:5000";
   const handleSubmit = (event) => {
     event.preventDefault(); // prevent page reload
-    const markerToAdd = {
-      userId: user._id,
-      coordonnees: {
-        latitude: props.position.lat,
-        longitude: props.position.lng
-      },
+    const updatedMarker = {
+      _id: marker._id,
+      userId: marker.userId,
+      coordonnees: marker.coordonnees,
       coursDeau: coursDeau,
       dateDechantillonage: dateDechantillonage,
       ciel: ciel,
@@ -62,12 +62,13 @@ export default function AddMarkerModal(props) {
       couleurDeau: couleurDeau,
       fondDeau: fondDeau,
       quantiteDalgues: quantiteDalgues,
-      sourcesDeContamination: sourcesDeContamination
+      sourcesDeContamination: sourcesDeContamination,
+      resultats: marker.resultats
     };
-    fetch(url + "/map/markers", {
-      method: "POST",
+    fetch(url + "/map/markers/" + marker._id, {
+      method: "PUT",
       body: JSON.stringify({
-        markerToAdd: markerToAdd
+        updatedMarker: updatedMarker
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -77,7 +78,7 @@ export default function AddMarkerModal(props) {
       .then((json) => {
         if (json.status === 200) {
           toast({
-            title: 'Votre étiquette a été enregistrée avec succès.',
+            title: "L'étiquette a été modifié dans le système.",
             description: "Merci de votre contribution",
             status: 'success',
             duration: 5000,
@@ -86,8 +87,8 @@ export default function AddMarkerModal(props) {
           })
           onClose();
           props.setMapPosition({
-            lat: props.position.lat,
-            lng: props.position.lng,
+            lat: marker.coordonnees.latitude,
+            lng: marker.coordonnees.longitude,
             zoom: 10,
           });
         } else {
@@ -109,7 +110,7 @@ export default function AddMarkerModal(props) {
         variant='outline'
         colorScheme='teal'
         aria-label='Call Segun'
-        icon={<AddIcon />}
+        icon={<EditIcon />}
         mt={1} style={{ flex: 12 }} textAlign={'left'} ref={btnRef} onClick={onOpen}>
 
       </IconButton>
@@ -132,13 +133,14 @@ export default function AddMarkerModal(props) {
             background='teal'
             color="white"
             textAlign="center"
+            mb={4}
           >
-            Ajouter une étiquette
+            Modifier l'étiquette
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl isRequired>
-              <Stack direction={'row'} height='50px' mt={4}>
+              <Stack direction={'row'} height='50px' >
                 <FormLabel fontWeight="semibold" mb={4} pt={2} fontSize={18} >Site d'échantillonage / Cours d'eau :</FormLabel>
                 <Stack direction='row' >
                   <Input
@@ -149,7 +151,8 @@ export default function AddMarkerModal(props) {
                     value={coursDeau}
                     onChange={(event) => {
                       setCoursDeau(event.target.value);
-                    }} />
+                    }}
+                  />
                 </Stack>
               </Stack>
             </FormControl>
@@ -169,7 +172,8 @@ export default function AddMarkerModal(props) {
                     value={dateDechantillonage}
                     onChange={(event) => {
                       setDateDechantillonage(event.target.value);
-                    }} />
+                    }}
+                  />
                 </Stack>
               </Stack>
             </FormControl>
@@ -178,10 +182,10 @@ export default function AddMarkerModal(props) {
             <br />
             <FormControl isRequired>
               <FormLabel fontWeight="semibold" mb={4} fontSize={18} as='legend'>Le ciel est plutôt :</FormLabel>
-              <RadioGroup defaultValue={ciel} colorScheme='teal' >
-                <HStack spacing={10} onChange={(event) => {
-                  setCiel(event.target.value);
-                }}>
+              <RadioGroup defaultValue={ciel} colorScheme='teal' onChange={(event) => {
+                setCiel(event.target.value);
+              }}>
+                <HStack spacing={10}>
                   <Radio value='Pluvieux'><Icon boxSize={6} as={BsCloudRainFill} />{' '}Pluvieux</Radio>
                   <Radio value='Nuageux'><Icon boxSize={6} as={BsCloudyFill} />{' '}Nuageux </Radio>
                   <Radio value='Ensoleillé avec nuages'><Icon boxSize={6} as={BsCloudSun} />{' '}Ensoleillé avec nuages</Radio>
@@ -253,10 +257,11 @@ export default function AddMarkerModal(props) {
                 </HStack>
               </RadioGroup>
             </FormControl>
+
             <br />
             <Divider orientation='horizontal' />
             <br />
-            <FormControl >
+            <FormControl>
               <FormLabel fontWeight="semibold" mb={4} fontSize={18} as='legend'>Les sources de contamination possibles sont :</FormLabel>
               <CheckboxGroup defaultValue={sourcesDeContamination} colorScheme='teal'>
                 <Stack spacing={5} direction={'row'} onChange={(event) => {
@@ -270,10 +275,30 @@ export default function AddMarkerModal(props) {
                     setSourcesDeContamination(sourcesDeContamination);
                   }
                 }}>
-                  <Checkbox value="Pollution près ou dans le cours d'eau">Pollution près ou dans le cours d'eau</Checkbox>
-                  <Checkbox value="Résidences à proximité ou routes">Résidences à proximité ou routes</Checkbox>
-                  <Checkbox value="Pollution d'origine industrielle">Pollution d'origine industrielle</Checkbox>
-                  <Checkbox value="Pollution d'origine agricole">Pollution d'origine agricole</Checkbox>
+                  <Checkbox
+                    value="Pollution près ou dans le cours d'eau"
+                    checked={sourcesDeContamination.includes("Pollution près ou dans le cours d'eau")}
+                  >
+                    Pollution près ou dans le cours d'eau
+                  </Checkbox>
+                  <Checkbox
+                    value="Résidences à proximité ou routes"
+                    checked={sourcesDeContamination.includes("Résidences à proximité ou routes")}
+                  >
+                    Résidences à proximité ou routes
+                  </Checkbox>
+                  <Checkbox
+                    value="Pollution d'origine industrielle"
+                    checked={sourcesDeContamination.includes("Pollution d'origine industrielle")}
+                  >
+                    Pollution d'origine industrielle
+                  </Checkbox>
+                  <Checkbox
+                    value="Pollution d'origine agricole"
+                    checked={sourcesDeContamination.includes("Pollution d'origine agricole")}
+                  >
+                    Pollution d'origine agricole
+                  </Checkbox>
                 </Stack>
               </CheckboxGroup>
             </FormControl>
@@ -288,11 +313,12 @@ export default function AddMarkerModal(props) {
                 colorScheme='teal'
                 type='submit'
               >
-                Enregistrer
+                Modifier
               </Button>
               <Button onClick={onClose}>Fermer</Button>
             </Stack>
           </ModalFooter>
+
         </ModalContent>
       </Modal>
     </>
