@@ -55,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@iconify/react": "^3.2.2",
     "@types/google.maps": "^3.49.2"
   }
 }
