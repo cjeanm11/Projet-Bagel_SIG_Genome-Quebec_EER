@@ -55,7 +55,7 @@ module.exports = {
 
   signUpUser: async function (req, res) {
     try {
-      const signedUpUser = await usersService.signUpUser(req.body.user);
+      const signedUpUser = await usersService.signUpUser(req.body.user, req.body.accessCode);
       res.status(200).send({ status: 200, user: signedUpUser });
     } catch (error) {
       console.log(error.message);

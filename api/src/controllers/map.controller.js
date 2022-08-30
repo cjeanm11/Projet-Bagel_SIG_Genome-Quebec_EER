@@ -3,9 +3,6 @@ const MapService = require('../services/map.service');
 const mapService = new MapService()
 
 module.exports = {
-  // getMap: async function (req, res) {
-  //   mapService.getMap()
-  // },
   getMarkers: async function (req, res) {
     try {
       const markers = await mapService.getMarkers();
@@ -26,8 +23,17 @@ module.exports = {
   },
   updateMarker: async function (req, res) {
     try {
-      const updatedMarker = await mapService.updateMarker(req.body.markerToUpdate);
-      res.status(200).send({ status: 200, marker: updatedMarker });
+      await mapService.updateMarker(req.body.updatedMarker);
+      res.status(200).send({ status: 200});
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).send({ status: 400, message: error.message });
+    }
+  },
+  addResults: async function (req, res) {
+    try {
+      await mapService.addResults(req.body.markerId, req.body.results);
+      res.status(200).send({ status: 200});
     } catch (error) {
       console.log(error.message);
       res.status(400).send({ status: 400, message: error.message });
