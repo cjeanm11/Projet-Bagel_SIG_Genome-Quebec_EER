@@ -13,6 +13,7 @@ import {
   Text,
   useColorModeValue,
   Link,
+  useToast
 } from "@chakra-ui/react";
 import { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,26 +25,34 @@ import { UserContext } from "../../App";
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useContext(UserContext);
+  const toast = useToast()
   const navigate = useNavigate();
-  // if (user) navigate('/app');
+
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   const usernameRef = useRef();
   const passwordRef = useRef();
+  const accessCodeRef = useRef();
 
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.toLowerCase().slice(1);
+  }
+  
   const url = "http://localhost:5000";
   const handleSubmit = (event) => {
     event.preventDefault(); // prevent page reload
+
     const userToSignUp = {
-      prenom: firstNameRef.current.value,
-      nom: lastNameRef.current.value,
-      identifiant: usernameRef.current.value,
+      prenom: capitalizeFirstLetter(firstNameRef.current.value),
+      nom: capitalizeFirstLetter(lastNameRef.current.value),
+      identifiant: usernameRef.current.value.toLowerCase(),
       motDePasse: passwordRef.current.value,
     }
     fetch(url + "/users/signup", {
       method: "POST",
       body: JSON.stringify({
-        user: userToSignUp
+        user: userToSignUp,
+        accessCode: accessCodeRef.current.value.toUpperCase()
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -53,11 +62,26 @@ export default function SignUp() {
       .then((json) => {
         if (json.status === 200) {
           const savedUser = json.user;
-          setUser(savedUser);
           sessionStorage.setItem('user', JSON.stringify(savedUser));
-          navigate("/");
+          toast({
+            title: 'Compte créé avec succès',
+            description: "Veuillez noter votre identifiant et mot de passe",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+            // onClose: () => { setUser(savedUser); navigate('/carte'); }
+          });
+          setTimeout(() => {setUser(savedUser); navigate('/carte');}, 3000);
         } else {
-          alert(json.message);
+          toast({
+            title: 'Une erreur est survenue lors de votre inscription',
+            description: json.message,
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: "top"
+          })
         }
       });
   }
@@ -88,29 +112,29 @@ export default function SignUp() {
         >
           <Stack spacing={4}>
             <HStack>
-              {/* <Box> */}
               <FormControl id="firstName" isRequired>
                 <FormLabel>Prénom</FormLabel>
                 <Input
                   type="text"
+                  minLength="2"
                   ref={firstNameRef}
+                  autoFocus
                 />
               </FormControl>
-              {/* </Box> */}
-              {/* <Box> */}
               <FormControl id="lastName" isRequired>
                 <FormLabel>Nom</FormLabel>
                 <Input
                   type="text"
+                  minLength="2"
                   ref={lastNameRef}
                 />
               </FormControl>
-              {/* </Box> */}
             </HStack>
             <FormControl id="username" isRequired>
               <FormLabel>Identifiant</FormLabel>
               <Input
                 type="text"
+                minLength="6"
                 ref={usernameRef}
               />
             </FormControl>
@@ -119,6 +143,7 @@ export default function SignUp() {
               <InputGroup>
                 <Input
                   type={showPassword ? "text" : "password"}
+                  minLength="8"
                   ref={passwordRef}
                 />
                 <InputRightElement h={"full"}>
@@ -132,6 +157,13 @@ export default function SignUp() {
                   </Button>
                 </InputRightElement>
               </InputGroup>
+            </FormControl>
+            <FormControl id="accessCode" isRequired>
+              <FormLabel>Code d'accés</FormLabel>
+              <Input
+                type="text"
+                ref={accessCodeRef}
+              />
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button

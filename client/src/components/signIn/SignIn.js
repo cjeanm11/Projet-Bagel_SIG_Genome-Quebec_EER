@@ -11,6 +11,7 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  useToast
 } from '@chakra-ui/react';
 import { useRef, useContext, useState } from "react";
 import { toggleLogin } from "../../redux/userSlice";
@@ -20,20 +21,22 @@ import { useSelector } from "react-redux"; // import useNavigate()
 import { UserContext } from "../../App";
 
 export function SignIn(props) {
-  const navigate = useNavigate(); // make const
   const [rememberMe, setRememberMe] = useState(false);
   const [user, setUser] = useContext(UserContext);
-  // if (user) navigate('/app');
+  const navigate = useNavigate();
+  const toast = useToast();
+
   const usernameRef = useRef();
   const passwordRef = useRef();
 
   const url = "http://localhost:5000";
   const handleSubmit = (event) => {
     event.preventDefault(); // prevent page reload
+    
     fetch(url + "/users/signin", {
       method: "POST",
       body: JSON.stringify({
-        identifiant: usernameRef.current.value,
+        identifiant: usernameRef.current.value.toLowerCase(),
         motDePasse: passwordRef.current.value,
       }),
       headers: {
@@ -44,14 +47,29 @@ export function SignIn(props) {
       .then((json) => {
         if (json.status === 200) {
           const user = json.user;
-          setUser(user);
           rememberMe ?
             localStorage.setItem('user', JSON.stringify(user))
             :
             sessionStorage.setItem('user', JSON.stringify(user));
-          navigate("/");
+          toast({
+            title: 'Vous êtes connecté avec votre compte',
+            description: "Vous pouvez désormais ajouter, modifier et suppprimer vos étiquettes",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+            // onClose: () => { setUser(user); navigate('/carte'); }
+          });
+          setTimeout(() => {setUser(user); navigate('/carte');}, 3000);
         } else {
-          alert(json.message);
+          toast({
+            title: 'Une erreur est survenue lors de votre authentification',
+            description: json.message,
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: "top"
+          });
         }
       });
   };
@@ -84,6 +102,7 @@ export function SignIn(props) {
               <Input
                 type="text"
                 ref={usernameRef}
+                autoFocus
               />
             </FormControl>
             <FormControl id="password" isRequired>
@@ -94,10 +113,6 @@ export function SignIn(props) {
               />
             </FormControl>
             <Stack spacing={4}>
-              {/* <Stack
-                  direction={{ base: 'column', sm: 'row' }}
-                  align={'start'}
-                  justify={'space-between'}> */}
               <Checkbox
                 value={rememberMe}
                 onChange={(event) => {
@@ -107,7 +122,6 @@ export function SignIn(props) {
                 Se souvenir de moi
               </Checkbox>
               {/* <Link color={'green.400'}>Mot de passe oublié?</Link> */}
-              {/* </Stack> */}
               <Button
                 type="submit"
                 loadingText="Envoi..."
