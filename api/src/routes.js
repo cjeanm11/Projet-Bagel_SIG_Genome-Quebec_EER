@@ -1,5 +1,6 @@
 const usersController = require('./controllers/users.controller')
 const mapController = require('./controllers/map.controller')
+const accessCodesController = require('./controllers/accessCodes.controller')
 
 module.exports = function (app) {
   // get
@@ -8,14 +9,16 @@ module.exports = function (app) {
   app.get('/users/students', usersController.getStudents);
   app.get('/users/teachers', usersController.getTeachers);
   app.get('/users/admins', usersController.getAdmins);
-  // app.get('/map', mapController.getMap);
   app.get('/map/markers', mapController.getMarkers);
+  app.get('/accesscodes', accessCodesController.getAccessCodes);
   
   // post
   app.post('/map/markers', mapController.addMarker);
+  app.post('/map/markers/results', mapController.addResults);
   app.post('/users/signup', usersController.signUpUser);
   app.post('/users/signin', usersController.signInUser);
-  
+  app.post('/accesscodes', accessCodesController.addAccessCode);
+
   // put
   app.put('/users/:id', usersController.updateUser);
   app.put('/map/markers/:id', mapController.updateMarker);
