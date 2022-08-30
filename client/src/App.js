@@ -22,7 +22,6 @@ const App = props => {
   const userFromStorage = sessionStorage.user ? JSON.parse(sessionStorage.user)
     : localStorage.user ? JSON.parse(localStorage.user) : null;
   const [user, setUser] = useState(userFromStorage);
-  // const loggedInValueToProvide = [user, setUser]; // So we can pass down both value and setter
 
   return (
     <UserContext.Provider value={[user, setUser]}>
@@ -37,14 +36,13 @@ const App = props => {
         <ChakraProvider>
           <div style={{ position: 'relative', zIndex: '0' }} >
             <Routes>
-              <Route exact path="/"
-                element={!user ? <SignInPage /> : <Map />} />
+              <Route exact path="/" element={<Map />} />
               <Route path="/apropos" element={<About />} />
               <Route path="/aide" element={<Help />} />
-              <Route path="/app" element={user ? <Map /> : <SignInPage />} />
+              <Route path="/carte" element={<Map />} />
               <Route path="/connexion" element={!user ? <SignInPage /> : <Map />} />
               <Route path="/inscription" element={!user ? <SignUpPage /> : <Map />} />
-              <Route path="/*" element={user ? <Map /> : <SignInPage />} />
+              <Route path="/*" element={<Map />} />
             </Routes>
           </div>
         </ChakraProvider>
@@ -57,6 +55,5 @@ const App = props => {
     </UserContext.Provider>
   );
 };
-
 
 export default App;
