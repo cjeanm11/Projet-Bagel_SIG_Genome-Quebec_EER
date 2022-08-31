@@ -62,3 +62,7 @@ Pendant cette période, j'ai:
 - Travaillé sur divers élèments de l'interface utilisateur
 - Créé les icones de Mission ADN-eau pour les utiliser comme marqueurs si besoin
 - Établi un code de couleur pour les marqueurs selon leur type 
+
+## 22 Août - 30 Août 2022
+
+Pendant cette période, j'ai implanté le panneau d'administration, le gestion des permissions selon le type d'usager et créé un système de code d'accès qui sécurise l'application et permet la création de comptes élèves ou enseignant selon leur école et leur niveau scolaire.
