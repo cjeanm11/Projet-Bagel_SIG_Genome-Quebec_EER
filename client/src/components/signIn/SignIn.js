@@ -17,7 +17,7 @@ import { useRef, useContext, useState } from "react";
 import { toggleLogin } from "../../redux/userSlice";
 import { store } from "../../redux/store";
 import { useNavigate } from 'react-router';
-import { useSelector } from "react-redux"; // import useNavigate()
+import { useSelector } from "react-redux";
 import { UserContext } from "../../App";
 
 export function SignIn(props) {
@@ -29,11 +29,10 @@ export function SignIn(props) {
   const usernameRef = useRef();
   const passwordRef = useRef();
 
-  const url = "http://localhost:5000";
   const handleSubmit = (event) => {
     event.preventDefault(); // prevent page reload
     
-    fetch(url + "/users/signin", {
+    fetch("/users/signin", {
       method: "POST",
       body: JSON.stringify({
         identifiant: usernameRef.current.value.toLowerCase(),

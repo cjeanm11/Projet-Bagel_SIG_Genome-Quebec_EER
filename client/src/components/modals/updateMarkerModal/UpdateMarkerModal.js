@@ -29,7 +29,7 @@ import { BsCloudSun, BsCloudyFill, BsCloudRainFill, BsSun } from "react-icons/bs
 import { UserContext } from "../../../App";
 
 export default function AddMarkerModal(props) {
-  // const [user, setUser] = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
   const marker = props.marker;
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [scrollBehavior] = useState('outside')
@@ -48,12 +48,11 @@ export default function AddMarkerModal(props) {
   const [sourcesDeContamination, setSourcesDeContamination] = useState(marker.sourcesDeContamination);
 
 
-  const url = "http://localhost:5000";
   const handleSubmit = (event) => {
     event.preventDefault(); // prevent page reload
     const updatedMarker = {
       _id: marker._id,
-      userId: marker.userId,
+      userId: user._id,
       coordonnees: marker.coordonnees,
       coursDeau: coursDeau,
       dateDechantillonage: dateDechantillonage,
@@ -65,7 +64,7 @@ export default function AddMarkerModal(props) {
       sourcesDeContamination: sourcesDeContamination,
       resultats: marker.resultats
     };
-    fetch(url + "/map/markers/" + marker._id, {
+    fetch("/map/markers/" + marker._id, {
       method: "PUT",
       body: JSON.stringify({
         updatedMarker: updatedMarker
@@ -182,10 +181,10 @@ export default function AddMarkerModal(props) {
             <br />
             <FormControl isRequired>
               <FormLabel fontWeight="semibold" mb={4} fontSize={18} as='legend'>Le ciel est plutôt :</FormLabel>
-              <RadioGroup defaultValue={ciel} colorScheme='teal' onChange={(event) => {
-                setCiel(event.target.value);
-              }}>
-                <HStack spacing={10}>
+              <RadioGroup defaultValue={ciel} colorScheme='teal' >
+                <HStack spacing={10} onChange={(event) => {
+                  setCiel(event.target.value);
+                }}>
                   <Radio value='Pluvieux'><Icon boxSize={6} as={BsCloudRainFill} />{' '}Pluvieux</Radio>
                   <Radio value='Nuageux'><Icon boxSize={6} as={BsCloudyFill} />{' '}Nuageux </Radio>
                   <Radio value='Ensoleillé avec nuages'><Icon boxSize={6} as={BsCloudSun} />{' '}Ensoleillé avec nuages</Radio>

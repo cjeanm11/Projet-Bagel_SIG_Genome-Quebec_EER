@@ -26,12 +26,12 @@ export const MarkerContainer = (props) => {
   const isMarkerCreatedByStudentOfTeacher = () => {
     return (
       user && user.role === "Enseignant" &&
-      marker.user.centreDeServiceScolaire === user.centreDeServiceScolaire &&
+      marker.user.centreDeServicesScolaire === user.centreDeServicesScolaire &&
       marker.user.ecole === user.ecole &&
       marker.user.niveauScolaire === user.niveauScolaire
     )
   }
-  
+
   const isAdmin = () => {
     return user && user.role === "Admin"
   }

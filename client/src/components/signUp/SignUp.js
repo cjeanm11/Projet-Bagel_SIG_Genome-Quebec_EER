@@ -38,7 +38,6 @@ export default function SignUp() {
     return str.charAt(0).toUpperCase() + str.toLowerCase().slice(1);
   }
   
-  const url = "http://localhost:5000";
   const handleSubmit = (event) => {
     event.preventDefault(); // prevent page reload
 
@@ -48,7 +47,7 @@ export default function SignUp() {
       identifiant: usernameRef.current.value.toLowerCase(),
       motDePasse: passwordRef.current.value,
     }
-    fetch(url + "/users/signup", {
+    fetch("/users/signup", {
       method: "POST",
       body: JSON.stringify({
         user: userToSignUp,

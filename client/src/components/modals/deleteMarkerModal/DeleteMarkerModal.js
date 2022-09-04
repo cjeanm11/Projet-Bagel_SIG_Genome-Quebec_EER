@@ -39,10 +39,9 @@ export default function DeleteMarkerModal(props) {
 
   const btnRef = useRef(null)
 
-  const url = "http://localhost:5000";
   const handleClick = (event) => {
     event.preventDefault(); // prevent page reload
-    fetch(url + "/map/markers/" + props.marker._id, { method: "DELETE" })
+    fetch("/map/markers/" + props.marker._id, { method: "DELETE" })
       .then((res) => res.json())
       .then((json) => {
         if (json.status === 200) {

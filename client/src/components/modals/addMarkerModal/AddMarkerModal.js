@@ -46,7 +46,6 @@ export default function AddMarkerModal(props) {
   const [quantiteDalgues, setQuantiteDalgues] = useState("");
   const [sourcesDeContamination, setSourcesDeContamination] = useState([]);
 
-  const url = "http://localhost:5000";
   const handleSubmit = (event) => {
     event.preventDefault(); // prevent page reload
     const markerToAdd = {
@@ -64,7 +63,7 @@ export default function AddMarkerModal(props) {
       quantiteDalgues: quantiteDalgues,
       sourcesDeContamination: sourcesDeContamination
     };
-    fetch(url + "/map/markers", {
+    fetch("/map/markers", {
       method: "POST",
       body: JSON.stringify({
         markerToAdd: markerToAdd

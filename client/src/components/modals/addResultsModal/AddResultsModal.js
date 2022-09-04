@@ -53,7 +53,6 @@ export default function AddMarkerModal(props) {
     });
   };
   
-  const url = "http://localhost:5000";
   const handleSubmit = (event) => {
     event.preventDefault(); // prevent page reload
     
@@ -65,7 +64,7 @@ export default function AddMarkerModal(props) {
       decouvertesCocasses: removeEmptyStringsFromArray(decouvertesCocasses)
     };
     
-    fetch(url + "/map/markers/results", {
+    fetch("/map/markers/results", {
       method: "POST",
       body: JSON.stringify({
         markerId: marker._id,
