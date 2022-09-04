@@ -13,8 +13,14 @@ class UsersService {
     return await User.findById(id);
   }
 
-  async getStudents() {
-    return await User.find({ role: "Élève" });
+  async getStudents(css, ecole, niveauScolaire) {
+    return await User.find(
+      {
+        role: "Élève",
+        centreDeServicesScolaire: css,
+        ecole: ecole,
+        niveauScolaire: niveauScolaire
+      });
   }
 
   async getTeachers() {
@@ -37,7 +43,7 @@ class UsersService {
     if (!accessCodeInfo) throw new Error("Le code d'accès est invalide");
     userToSignUp.role = accessCodeInfo.role;
     userToSignUp.ecole = accessCodeInfo.ecole;
-    userToSignUp.centreDeServiceScolaire = accessCodeInfo.centreDeServiceScolaire;
+    userToSignUp.centreDeServicesScolaire = accessCodeInfo.centreDeServicesScolaire;
     userToSignUp.niveauScolaire = accessCodeInfo.niveauScolaire;
 
     // Vérifier que le mot de passe et l'identifiant sont assez longs et ne contiennent pas d'espace

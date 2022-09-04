@@ -25,7 +25,7 @@ module.exports = {
 
   getStudents: async function (req, res) {
     try {
-      const students = await usersService.getStudents();
+      const students = await usersService.getStudents(req.body.css, req.body.ecole, req.body.niveauScolaire);
       res.status(200).send({ status: 200, students: students });
     } catch (error) {
       console.log(error.message);

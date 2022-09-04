@@ -6,7 +6,6 @@ module.exports = function (app) {
   // get
   app.get('/users', usersController.getUsers);
   app.get('/users/:id', usersController.getUser);
-  app.get('/users/students', usersController.getStudents);
   app.get('/users/teachers', usersController.getTeachers);
   app.get('/users/admins', usersController.getAdmins);
   app.get('/map/markers', mapController.getMarkers);
@@ -17,6 +16,7 @@ module.exports = function (app) {
   app.post('/map/markers/results', mapController.addResults);
   app.post('/users/signup', usersController.signUpUser);
   app.post('/users/signin', usersController.signInUser);
+  app.post('/users/students', usersController.getStudents);
   app.post('/accesscodes', accessCodesController.addAccessCode);
 
   // put
@@ -26,4 +26,5 @@ module.exports = function (app) {
   // delete
   app.delete('/users/:id', usersController.deleteUser);
   app.delete('/map/markers/:id', mapController.deleteMarker);
+  app.delete('/accesscodes/:id', accessCodesController.deleteAccessCode);
 };

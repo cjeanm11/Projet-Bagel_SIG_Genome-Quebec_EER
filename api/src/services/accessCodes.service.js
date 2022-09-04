@@ -5,9 +5,11 @@ class AccessCodesService {
   async getAccessCodes() {
     return await AccessCode.find();
   }
+  
   async getAccessCodeInfo(accessCode) {
     return await AccessCode.findOne({ code: accessCode });
   }
+  
   async addAccessCode(accessCodeInfo) {
     /* create 2 access codes
     1 for students
@@ -49,6 +51,10 @@ class AccessCodesService {
     studentsAccessCode = await AccessCode.create(studentsAccessCode)
     teacherAccessCode = await AccessCode.create(teacherAccessCode)
     return { students: studentsAccessCode.code, teacher: teacherAccessCode.code };
+  }
+  
+  async deleteAccessCode(id) {
+    await AccessCode.findByIdAndRemove(id);
   }
 }
 

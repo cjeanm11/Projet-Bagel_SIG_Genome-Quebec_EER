@@ -21,5 +21,14 @@ module.exports = {
       console.log(error.message);
       res.status(400).send({ status: 400, message: error.message });
     }
+  },
+  deleteAccessCode: async function (req, res) {
+    try {
+      await accessCodesService.deleteAccessCode(req.params.id);
+      res.status(200).send({ status: 200});
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).send({ status: 400, message: error.message });
+    }
   }
 }
