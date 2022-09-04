@@ -9,13 +9,15 @@ import {
   useDisclosure
 } from "@chakra-ui/react";
 import { useRef, useState } from 'react';
-import AccessCodesPanel from "../../adminDashboardPanels/AccessCodesPanel";
+import AccessCodesPanel from "./AccessCodesPanel";
+import UsersPanel from "./UsersPanel";
+import MarkersPanel from "./MarkersPanel";
 export default function ScrollingModal() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [scrollBehavior, setScrollBehavior] = useState('outside')
 
   const btnRef = useRef(null)
-  
+
   return (
     <>
       <Text mt={1} style={{ flex: 12 }} textAlign={'left'} ref={btnRef} onClick={onOpen}>
@@ -44,66 +46,19 @@ export default function ScrollingModal() {
           <ModalBody>
             <Tabs >
               <TabList>
-                <Tab>Code d'accès</Tab>
-                <Tab>Usagers</Tab>
-                <Tab>Marqueurs</Tab>
-                <Tab>Accordians</Tab>
+                <Tab fontWeight="bold">Code d'accès</Tab>
+                <Tab fontWeight="bold">Usagers</Tab>
+                <Tab fontWeight="bold">Marqueurs</Tab>
               </TabList>
               <TabPanels>
                 <TabPanel>
                   <AccessCodesPanel />
                 </TabPanel>
                 <TabPanel>
-                  <p>
-                    Usagers
-                  </p>
+                  <UsersPanel />
                 </TabPanel>
                 <TabPanel>
-                  <p>
-                    Marqueurs
-                  </p>
-                </TabPanel>
-                <TabPanel>
-                  <Accordion allowMultiple>
-                    <AccordionItem>
-                      <h2>
-                        <AccordionButton>
-                          <Box flex='1' textAlign='left'>
-                            Section 1 title
-                          </Box>
-                          <AccordionIcon />
-                        </AccordionButton>
-                      </h2>
-                      <AccordionPanel pb={4}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
-                      </AccordionPanel>
-                    </AccordionItem>
-
-                    <AccordionItem>
-                      {({ isExpanded }) => (
-                        <>
-                          <h2>
-                            <AccordionButton>
-                              <Box flex='1' textAlign='left'>
-                                Section 1 title
-                              </Box>
-                              <AccordionIcon />
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel pb={4}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                            aliquip ex ea commodo consequat.
-                          </AccordionPanel>
-
-                        </>
-                      )}
-                    </AccordionItem>
-                  </Accordion>
+                  <MarkersPanel />
                 </TabPanel>
               </TabPanels>
             </Tabs>
@@ -117,7 +72,8 @@ export default function ScrollingModal() {
               onClick={onClose}
             >
               Fermer
-            </Button>          </ModalFooter>
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

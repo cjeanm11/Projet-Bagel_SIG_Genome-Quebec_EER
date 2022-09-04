@@ -8,12 +8,17 @@ import {
   ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs, Text,
   useDisclosure
 } from "@chakra-ui/react";
-import React from 'react';
-export default function ScrollingModal() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const [scrollBehavior, setScrollBehavior] = React.useState('outside')
+import { useState, useContext, useRef } from 'react';
+import { UserContext } from "../../../App";
+import StudentsPanel from "./StudentsPanel";
+import ProfilePanel from "./ProfilePanel";
 
-  const btnRef = React.useRef(null)
+export default function ScrollingModal() {
+  const [user, setUser] = useContext(UserContext);
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [scrollBehavior, setScrollBehavior] = useState('outside')
+
+  const btnRef = useRef(null)
   return (
     <>
       <Text mt={1} style={{ flex: 12 }} textAlign={'left'} ref={btnRef} onClick={onOpen}>
@@ -29,18 +34,36 @@ export default function ScrollingModal() {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Réglages</ModalHeader>
+          <ModalHeader
+            fontWeight="bold"
+            fontSize="2xl"
+            background='teal'
+            color="white"
+            textAlign="center"
+          >
+            Réglages
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Tabs >
               <TabList>
-                <Tab> Profile</Tab>
-                <Tab> Configuration</Tab>
-                <Tab> Vue d'ensemble</Tab>
+                <Tab fontWeight="bold"> Profil</Tab>
+                {user.role === "Enseignant" &&
+                  <Tab fontWeight="bold"> Élèves</Tab>
+                }
+                {/* <Tab> Vue d'ensemble</Tab> */}
               </TabList>
 
               <TabPanels>
                 <TabPanel>
+                  <ProfilePanel />
+                </TabPanel>
+                {user.role === "Enseignant" &&
+                  <TabPanel>
+                    <StudentsPanel />
+                  </TabPanel>
+                }
+                {/* <TabPanel>
                   <Accordion allowMultiple>
                     <AccordionItem>
                       <h2>
@@ -81,20 +104,7 @@ export default function ScrollingModal() {
                       )}
                     </AccordionItem>
                   </Accordion>
-                </TabPanel>
-                <TabPanel>
-                  <p>
-                    Configuration
-                  </p>
-                </TabPanel>
-                <TabPanel>
-                  <p>
-                    Vue d'ensemble
-                  </p>
-                </TabPanel>
-                <TabPanel>
-                  <p>three!</p>
-                </TabPanel>
+                </TabPanel> */}
               </TabPanels>
             </Tabs>
           </ModalBody>
