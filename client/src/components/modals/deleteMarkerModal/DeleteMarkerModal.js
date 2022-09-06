@@ -99,7 +99,6 @@ export default function DeleteMarkerModal(props) {
               <Button onClick={onClose}>Annuler</Button>
             </Stack>
           </ModalFooter>
-
         </ModalContent>
       </Modal>
     </>

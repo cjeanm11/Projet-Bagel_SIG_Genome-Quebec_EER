@@ -55,13 +55,13 @@ export default function AddMarkerModal(props) {
         longitude: props.position.lng
       },
       coursDeau: coursDeau,
-      dateDechantillonage: dateDechantillonage,
-      ciel: ciel,
-      berges: berges,
-      couleurDeau: couleurDeau,
-      fondDeau: fondDeau,
-      quantiteDalgues: quantiteDalgues,
-      sourcesDeContamination: sourcesDeContamination
+      // dateDechantillonage: dateDechantillonage,
+      // ciel: ciel,
+      // berges: berges,
+      // couleurDeau: couleurDeau,
+      // fondDeau: fondDeau,
+      // quantiteDalgues: quantiteDalgues,
+      // sourcesDeContamination: sourcesDeContamination
     };
     fetch("/map/markers", {
       method: "POST",
@@ -155,7 +155,7 @@ export default function AddMarkerModal(props) {
             <br />
             <Divider orientation='horizontal' />
             <br />
-            <FormControl isRequired>
+            {/* <FormControl isRequired>
               <Stack direction={'row'} height='50px' >
                 <FormLabel fontWeight="semibold" mb={4} pt={2} fontSize={18} >Date d'échantillonage:</FormLabel>
                 <Stack direction='row' >
@@ -278,7 +278,7 @@ export default function AddMarkerModal(props) {
             </FormControl>
             <br />
             <Divider orientation='horizontal' />
-            <br />
+            <br /> */}
           </ModalBody>
           <ModalFooter>
             <Stack pr={4} direction={'row'}>

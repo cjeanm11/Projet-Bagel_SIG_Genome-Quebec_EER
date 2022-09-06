@@ -31,6 +31,14 @@ export const MarkerContainer = (props) => {
       marker.user.niveauScolaire === user.niveauScolaire
     )
   }
+  const isMarkerCreatedByTeacherOfStudent = () => {
+    return (
+      user && user.role === "Élève" &&
+      marker.user.centreDeServicesScolaire === user.centreDeServicesScolaire &&
+      marker.user.ecole === user.ecole &&
+      marker.user.niveauScolaire === user.niveauScolaire
+    )
+  }
 
   const isAdmin = () => {
     return user && user.role === "Admin"
@@ -41,7 +49,7 @@ export const MarkerContainer = (props) => {
       key={props.i}
       icon={
         props.typeMarker === "old" ?
-          isMarkerCreatedByStudentOfTeacher() || isAdmin() ?
+          (isMarkerCreatedByStudentOfTeacher() || isMarkerCreatedByTeacherOfStudent() || isAdmin()) ?
             marker.resultats.disponibles ?
               editableWithResultsIconMarker :
               editableIconMarker :
@@ -72,7 +80,7 @@ export const MarkerContainer = (props) => {
               </CustomCard>
             </Tooltip>
           }
-          {props.typeMarker === "old" &&
+          {props.typeMarker === "old" && marker.dateDechantillonage &&
             <Tooltip label="Voir l'étiquette" >
               <CustomCard>
                 <ViewMarkerModal marker={marker} />
@@ -89,7 +97,8 @@ export const MarkerContainer = (props) => {
           {props.typeMarker === "old" && user && !marker.resultats.disponibles &&
             (marker.userId === user._id ||
               user.role === "Admin" ||
-              isMarkerCreatedByStudentOfTeacher()) &&
+              isMarkerCreatedByStudentOfTeacher()
+            ) &&
             <Tooltip label="Ajouter le résultat des analyses">
               <CustomCard>
                 <AddResultsModal
@@ -102,7 +111,11 @@ export const MarkerContainer = (props) => {
           }
           {props.typeMarker === "old" && user &&
             (isAdmin() || (!marker.resultats.disponibles &&
-              (marker.userId === user._id || isMarkerCreatedByStudentOfTeacher()))) &&
+              (marker.userId === user._id ||
+                isMarkerCreatedByStudentOfTeacher() ||
+                isMarkerCreatedByTeacherOfStudent()
+              )
+            )) &&
             <Tooltip label="Modifier l'étiquette">
               <CustomCard>
                 <UpdateMarkerModal
@@ -114,8 +127,9 @@ export const MarkerContainer = (props) => {
             </Tooltip>
           }
           {props.typeMarker === "old" && user &&
-            (isAdmin() || (!marker.resultats.disponibles &&
-              (marker.userId === user._id || isMarkerCreatedByStudentOfTeacher()))) &&
+            (isAdmin() ||
+              (!marker.resultats.disponibles && isMarkerCreatedByStudentOfTeacher())
+            ) &&
             <Tooltip label="Supprimer l'étiquette">
               <CustomCard>
                 <DeleteMarkerModal

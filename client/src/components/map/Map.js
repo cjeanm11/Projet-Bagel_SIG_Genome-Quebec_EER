@@ -67,7 +67,7 @@ export const Map = (props) => {
       <TileLayer
         url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png'
       />
-      {user && <LocationMarker />}
+      {user && ["Admin", "Enseignant"].includes(user.role) && <LocationMarker />}
       {markers.map((marker, i) =>
       (
         <MarkerContainer
@@ -77,13 +77,18 @@ export const Map = (props) => {
             user ?
               marker.userId === user._id ?
                 marker.resultats.disponibles ?
-                  editableWithResultsIconMarker :
-                  editableIconMarker :
+                  editableWithResultsIconMarker
+                  :
+                  editableIconMarker
+                :
                 marker.resultats.disponibles ?
-                  withResultsIconMarker :
-                  defaultIconMarker :
+                  withResultsIconMarker
+                  :
+                  defaultIconMarker
+              :
               marker.resultats.disponibles ?
-                withResultsIconMarker :
+                withResultsIconMarker
+                :
                 defaultIconMarker
           }
           position={[marker.coordonnees.latitude, marker.coordonnees.longitude]}
