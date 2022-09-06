@@ -39,13 +39,14 @@ export default function AddMarkerModal(props) {
   const btnRef = useRef(null)
 
   const [coursDeau, setCoursDeau] = useState(marker.coursDeau);
-  const [dateDechantillonage, setDateDechantillonage] = useState(marker.dateDechantillonage.split("T")[0]);
-  const [ciel, setCiel] = useState(marker.ciel);
-  const [berges, setBerges] = useState(marker.berges);
-  const [couleurDeau, setCouleurDeau] = useState(marker.couleurDeau);
-  const [fondDeau, setFondDeau] = useState(marker.fondDeau);
-  const [quantiteDalgues, setQuantiteDalgues] = useState(marker.quantiteDalgues);
-  const [sourcesDeContamination, setSourcesDeContamination] = useState(marker.sourcesDeContamination);
+
+  const [dateDechantillonage, setDateDechantillonage] = useState(marker.dateDechantillonage ? marker.dateDechantillonage.split("T")[0] : "");
+  const [ciel, setCiel] = useState(marker.ciel ? marker.ciel : "");
+  const [berges, setBerges] = useState(marker.berges ? marker.berges : "");
+  const [couleurDeau, setCouleurDeau] = useState(marker.couleurDeau ? marker.couleurDeau : "");
+  const [fondDeau, setFondDeau] = useState(marker.fondDeau ? marker.fondDeau : "");
+  const [quantiteDalgues, setQuantiteDalgues] = useState(marker.quantiteDalgues ? marker.quantiteDalgues : "");
+  const [sourcesDeContamination, setSourcesDeContamination] = useState(marker.sourcesDeContamination ? marker.sourcesDeContamination : "");
 
 
   const handleSubmit = (event) => {
@@ -110,10 +111,12 @@ export default function AddMarkerModal(props) {
         colorScheme='teal'
         aria-label='Call Segun'
         icon={<EditIcon />}
-        mt={1} style={{ flex: 12 }} textAlign={'left'} ref={btnRef} onClick={onOpen}>
-
-      </IconButton>
-
+        mt={1}
+        style={{ flex: 12 }}
+        textAlign={'left'}
+        ref={btnRef}
+        onClick={onOpen}
+      />
       <Modal
         onClose={onClose}
         finalFocusRef={btnRef}
@@ -148,9 +151,10 @@ export default function AddMarkerModal(props) {
                     backgroundColor="#ffffff"
                     type="text"
                     value={coursDeau}
-                    onChange={(event) => {
-                      setCoursDeau(event.target.value);
-                    }}
+                    // onChange={(event) => {
+                    //   setCoursDeau(event.target.value);
+                    // }}
+                    readOnly
                   />
                 </Stack>
               </Stack>
@@ -312,7 +316,7 @@ export default function AddMarkerModal(props) {
                 colorScheme='teal'
                 type='submit'
               >
-                Modifier
+                Enregistrer
               </Button>
               <Button onClick={onClose}>Fermer</Button>
             </Stack>
