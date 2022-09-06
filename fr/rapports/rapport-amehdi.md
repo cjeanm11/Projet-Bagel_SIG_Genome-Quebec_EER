@@ -8,6 +8,8 @@ lang: fr
 - Développer le backend et le traitement de requêtes
 - Implanter l'authentification d'usagers avec validation et encryption des mots de passes
 - Gérer les différents modes d'accès correspondants aux rôles d'usagers
+- Développer un système de code d’accès permettant la création de comptes
+- Implanter l'interface graphique des étiquettes et des résultats de séquençage
 - Développer le panneau d'administration
 - Performer les tests avec différents cas d'utilisation
 
@@ -65,4 +67,8 @@ Pendant cette période, j'ai:
 
 ## 22 Août - 30 Août 2022
 
-Pendant cette période, j'ai implanté le panneau d'administration, le gestion des permissions selon le type d'usager et créé un système de code d'accès qui sécurise l'application et permet la création de comptes élèves ou enseignant selon leur école et leur niveau scolaire.
+Pendant cette période, j'ai:
+- Développé le panneau d'administration
+- Implanté la gestion des permissions selon le type d'usager
+- Implanté les modifications suggérées lors de la réunion avec Génôme Québec
+- Travaillé sur divers composantes de l'interface graphique
