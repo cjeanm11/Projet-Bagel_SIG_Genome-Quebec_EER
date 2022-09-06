@@ -82,7 +82,7 @@ export default function MarkersPanel(props) {
                   <Td>{"lat: " + marker.coordonnees.latitude}<br />
                     {"lon: " + marker.coordonnees.longitude}</Td>
                   <Td>{marker.coursDeau}</Td>
-                  <Td>{marker.dateDechantillonage.split("T")[0]}</Td>
+                  <Td>{marker.dateDechantillonage ? marker.dateDechantillonage.split("T")[0] : ""}</Td>
                   <Td>{`${marker.user.nom}, ${marker.user.prenom}`}</Td>
                   <Td>{marker.resultats.disponibles ? "Disponibles" : "En attente"}</Td>
                 </Tr>
